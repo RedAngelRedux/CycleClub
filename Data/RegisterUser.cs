@@ -24,25 +24,25 @@ internal class RegisterUser : IRegister
     /// <returns>true if the insert was successful, false otherwise</returns>
     public bool Register(string[] fields)
     {
-        using (var db = new CycleClubDbContext())
+        User user = new()
         {
-            User user = new User
-            {
-                EmailAddress = fields[(int)FieldConstants.UserRegistrationField.EmailAddress],
-                FirstName = fields[(int)FieldConstants.UserRegistrationField.FirstName],
-                LastName = fields[(int)FieldConstants.UserRegistrationField.LastName],
-                Password = fields[(int)FieldConstants.UserRegistrationField.Password],
-                DateOfBirth = DateTime.Parse(fields[(int)FieldConstants.UserRegistrationField.DateOfBirth]),
-                PhoneNumber = fields[(int)FieldConstants.UserRegistrationField.PhoneNumber],
-                Address1 = fields[(int)FieldConstants.UserRegistrationField.Address1],
-                Address2 = fields[(int)FieldConstants.UserRegistrationField.Address2],
-                City = fields[(int)FieldConstants.UserRegistrationField.City],
-                State = fields[(int)FieldConstants.UserRegistrationField.State],
-                PostalCode = fields[(int)FieldConstants.UserRegistrationField.PostalCode],
-            };
-            db.Users.Add(user);
-            db.SaveChanges();
-        }
+            EmailAddress = fields[(int)FieldConstants.UserRegistrationField.EmailAddress],
+            FirstName = fields[(int)FieldConstants.UserRegistrationField.FirstName],
+            LastName = fields[(int)FieldConstants.UserRegistrationField.LastName],
+            Password = fields[(int)FieldConstants.UserRegistrationField.Password],
+            DateOfBirth = DateTime.Parse(fields[(int)FieldConstants.UserRegistrationField.DateOfBirth]),
+            PhoneNumber = fields[(int)FieldConstants.UserRegistrationField.PhoneNumber],
+            Address1 = fields[(int)FieldConstants.UserRegistrationField.Address1],
+            Address2 = fields[(int)FieldConstants.UserRegistrationField.Address2],
+            City = fields[(int)FieldConstants.UserRegistrationField.City],
+            State = fields[(int)FieldConstants.UserRegistrationField.State],
+            PostalCode = fields[(int)FieldConstants.UserRegistrationField.PostalCode],
+        };
+
+        CycleClubDbContext db = new();
+        db.Users.Add(user);
+        db.SaveChanges();
+
         return true;
     }
 }

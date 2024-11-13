@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CycleClub;
 
-public enum Fonttheme
+public enum FontTheme
 {
     Default,
     Danger,
@@ -15,14 +15,14 @@ public enum Fonttheme
 
 public static class CommonOutputFormat
 {
-    public static void ChangeFontColor(Fonttheme fonttheme)
+    public static void ChangeFontColor(FontTheme fonttheme)
     {
-        if (fonttheme == Fonttheme.Danger)
+        if (fonttheme == FontTheme.Danger)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;
         }
-        else if (fonttheme == Fonttheme.Success)
+        else if (fonttheme == FontTheme.Success)
         {
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.White;

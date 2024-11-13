@@ -15,5 +15,5 @@ public interface ILogin
     /// <param name="emailAddress"></param>
     /// <param name="password"></param>
     /// <returns>The User object if login was successful or null</returns>
-    User Login(string emailAddress, string password);
+    User? Login(string emailAddress, string password);
 }
