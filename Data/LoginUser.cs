@@ -9,10 +9,10 @@ public class LoginUser : ILogin
 		try
 		{
 			CycleClubDbContext db = new();
-			User? user = db.Users.FirstOrDefault(
-				u => u.EmailAddress!.Trim().Equals(emailAddress.Trim(), StringComparison.CurrentCultureIgnoreCase)
-				&& u.Password!.Equals(password));
-			return user;
+            User? user = db.Users.FirstOrDefault(
+				u => (u.Password!.Equals(password) && 
+				u.EmailAddress!.ToLower().Trim().Equals(emailAddress.ToLower().Trim())));
+            return user;
 
 		}
 		catch (Exception)

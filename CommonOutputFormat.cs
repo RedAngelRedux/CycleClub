@@ -19,13 +19,11 @@ public static class CommonOutputFormat
     {
         if (fonttheme == FontTheme.Danger)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Red;
         }
         else if (fonttheme == FontTheme.Success)
         {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Green;
         }
         else
         {

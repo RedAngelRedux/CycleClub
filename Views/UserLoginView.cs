@@ -15,10 +15,10 @@ public class UserLoginView(ILogin login) : IView
         CommonOutputText.WriteMainHeading();
         CommonOutputText.WriteLoginHeading();
 
-        Console.WriteLine("Please enter your email address");
+        Console.Write("Please enter your email address: ");
         string emailAddress = Console.ReadLine() ?? string.Empty;
 
-        Console.WriteLine("Please enter your password");
+        Console.Write("Please enter your password: ");
         string password = Console.ReadLine() ?? string.Empty;
 
         User? user = _loginUser?.Login(emailAddress, password);
@@ -29,12 +29,8 @@ public class UserLoginView(ILogin login) : IView
         }
         else
         {
-            Console.Clear();
-            CommonOutputFormat.ChangeFontColor(FontTheme.Danger);
-            Console.WriteLine("Those credentials do not match our records");
-            CommonOutputFormat.ChangeFontColor(FontTheme.Default);
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            CommonOutputText.WriteDangerMessage("Those credentials do not match our records");
+            CommonOutputText.WritePressKeyMessage();
         }
     }
 }

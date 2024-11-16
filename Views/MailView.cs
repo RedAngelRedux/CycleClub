@@ -1,7 +1,10 @@
-﻿using CycleClub.FieldValidators;
+﻿using CycleClub.Data;
+using CycleClub.FieldValidators;
+using CycleClub.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,26 +18,37 @@ public class MailView(IView registerView, IView loginView) : IView
 
     public void RunView()
     {
-        CommonOutputText.WriteMainHeading();
+        ConsoleKey key = ConsoleKey.Z;
+        do
+        {
+            CommonOutputText.WriteMainHeading();
 
-        Console.WriteLine("Please enter 'l' to login or 'r' to register if you don't yet have an account");
-        ConsoleKey key = Console.ReadKey().Key;
+            Console.Write("Please enter 'l' to login, 'r' to register for the first time, or 'q' to exit the application: ");
+            key = Console.ReadKey().Key;
 
-        if (key == ConsoleKey.R)
-        {
-            RunUserRegistrationView();
-            RunLoginView();
-        }
-        else if (key == ConsoleKey.L)
-        {
-            RunLoginView();
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine("Good-bye");
-            Console.ReadKey();
-        }
+            if (key == ConsoleKey.R)
+            {
+                RunUserRegistrationView();
+                RunLoginView();
+            }
+            else if (key == ConsoleKey.L)
+            {
+                RunLoginView();
+            }
+            else if (key == ConsoleKey.Q)
+            {
+                Console.Clear();
+                Console.WriteLine("Good-bye.");
+                CommonOutputText.WritePressKeyMessage();
+            }
+            else
+            {
+                Console.WriteLine();
+                CommonOutputText.WriteInvalidKeyMessage(key);
+                CommonOutputText.WritePressKeyMessage();
+            }
+
+        } while (key != ConsoleKey.Q);    
     }
 
     private void RunUserRegistrationView()

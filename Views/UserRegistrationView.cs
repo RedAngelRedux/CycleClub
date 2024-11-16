@@ -1,10 +1,5 @@
 ﻿using CycleClub.Data;
 using CycleClub.FieldValidators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CycleClub.Views;
 
@@ -24,31 +19,31 @@ public class UserRegistrationView : IView
         CommonOutputText.WriteRegistrationHeading();
 
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.EmailAddress] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.EmailAddress, "Please Enter Your Email Address");
+            GetInputFromUser(FieldConstants.UserRegistrationField.EmailAddress, "Please Enter Your Email Address: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.FirstName] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.FirstName, "Please Enter Your First Name");
+            GetInputFromUser(FieldConstants.UserRegistrationField.FirstName, "Please Enter Your First Name: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.LastName] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.LastName, "Please Enter Your Last Name");
+            GetInputFromUser(FieldConstants.UserRegistrationField.LastName, "Please Enter Your Last Name: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.DateOfBirth] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.DateOfBirth, "Please Enter Your Date Of Birth");
+            GetInputFromUser(FieldConstants.UserRegistrationField.DateOfBirth, "Please Enter Your Date Of Birth: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.Password] = 
             GetInputFromUser(FieldConstants.UserRegistrationField.Password, $"Please Enter Your Password{Environment.NewLine}" +
             $"Your password must contain at least 1 small-case letter, 1 Capital letter, 1 numeric digit, 1 special character{Environment.NewLine}" +
-            $"and the length should be between 6-10 characters.");
+            $"and the length should be between 6-10 characters.: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.PasswordCompare] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.PasswordCompare, "Please Enter Your Password Again");
+            GetInputFromUser(FieldConstants.UserRegistrationField.PasswordCompare, "Please Enter Your Password Again: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.Address1] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.Address1, "Please Enter Your Address Line One");
+            GetInputFromUser(FieldConstants.UserRegistrationField.Address1, "Please Enter Your Address Line One: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.Address2] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.Address2, "Please Enter Your Address Line Two (optional)");
+            GetInputFromUser(FieldConstants.UserRegistrationField.Address2, "Please Enter Your Address Line Two (optional): ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.City] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.City, "Please Enter Your City");
+            GetInputFromUser(FieldConstants.UserRegistrationField.City, "Please Enter Your City: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.State] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.State, "Please Enter Your State Code");
+            GetInputFromUser(FieldConstants.UserRegistrationField.State, "Please Enter Your State Code: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.PostalCode] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.PostalCode, "Please Enter Your Zip Code");
+            GetInputFromUser(FieldConstants.UserRegistrationField.PostalCode, "Please Enter Your Zip Code: ");
         _fieldValidator.FieldArray[(int)FieldConstants.UserRegistrationField.PhoneNumber] = 
-            GetInputFromUser(FieldConstants.UserRegistrationField.PhoneNumber, "Please Enter Your PhoneNumber");
+            GetInputFromUser(FieldConstants.UserRegistrationField.PhoneNumber, "Please Enter Your PhoneNumber: ");
 
         RegisterUser();
     }
@@ -57,21 +52,17 @@ public class UserRegistrationView : IView
     {
         if(_register is null || _fieldValidator is null)
         {
-            CommonOutputFormat.ChangeFontColor(FontTheme.Danger);
-            Console.WriteLine("Your registration attempt was successfull");
-            CommonOutputFormat.ChangeFontColor(FontTheme.Default);
-            Console.Write("Press any key to continue");
+            CommonOutputText.WriteDangerMessage("Your registration attempt was not successfull");
+            CommonOutputText.WritePressKeyMessage();
         }
         else
         {
             _register.Register(_fieldValidator.FieldArray);
 
-            CommonOutputFormat.ChangeFontColor(FontTheme.Success);
-            Console.WriteLine("You have successfully registered");
-            CommonOutputFormat.ChangeFontColor(FontTheme.Default);
-            Console.Write("Press any key to login");
+            CommonOutputText.WriteSuccessMessage("You have successfully registered");
+            CommonOutputText.WritePressKeyMessage("Press any key to login");
         }
-        Console.ReadKey();
+        
     }
 
     public UserRegistrationView(IRegister register, IFieldValidator fieldValidator)
@@ -86,7 +77,7 @@ public class UserRegistrationView : IView
 
         do
         {
-            Console.WriteLine(promptText);
+            Console.Write(promptText);
             fieldValue = Console.ReadLine();
         } while (!FieldValid(field,fieldValue??string.Empty));
 
@@ -95,6 +86,12 @@ public class UserRegistrationView : IView
 
     private bool FieldValid(FieldConstants.UserRegistrationField field, string fieldValue) 
     {
-        return true;
+        bool isValid = true;
+        if (_fieldValidator != null && !_fieldValidator.ValidatorDlgt((int)field, fieldValue, _fieldValidator.FieldArray, out string? invalidMessage))
+        {
+            CommonOutputText.WriteDangerMessage(invalidMessage);
+            isValid = false;
+        }
+        return isValid;
     }
 }
